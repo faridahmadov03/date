@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>A Question For You 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink-bg: #fce4ec;
+      --pink-mid: #f8bbd0;
+      --pink-deep: #f48fb1;
+      --red: #e53935;
+      --red-dark: #b71c1c;
+      --white: #fff;
+      --text-dark: #880e4f;
+    }
+
+```
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100dvh;
+  background: var(--pink-bg);
+  background-image:
+    radial-gradient(ellipse at 20% 10%, #f8bbd0 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 90%, #f48fb1 0%, transparent 50%);
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+}
+
+/* ── CARD ── */
+.card {
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(255,255,255,0.9);
+  border-radius: 28px;
+  box-shadow: 0 8px 40px rgba(233,30,99,0.12);
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 28px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f48fb1 0%, transparent 70%);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* ── PHOTO SLOT ── */
+.photo-slot {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  border: 2.5px dashed var(--pink-deep);
+  background: var(--pink-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.photo-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+  display: none; /* shown when src is set */
+}
+
+.photo-slot .placeholder-text {
+  font-size: 11px;
+  color: #ad1457;
+  text-align: center;
+  padding: 8px;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+/* ── QUESTION ── */
+.question {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(26px, 7vw, 36px);
+  color: var(--text-dark);
+  text-align: center;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+/* ── BUTTONS ── */
+.btn-group {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+}
+
+.btn {
+  flex: 1;
+  padding: 16px 10px;
+  border: none;
+  border-radius: 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  letter-spacing: 0.3px;
+}
+
+.btn:active { transform: scale(0.96); }
+
+.btn-yes {
+  background: var(--red);
+  color: var(--white);
+  box-shadow: 0 4px 18px rgba(229,57,53,0.35);
+}
+
+.btn-yes:hover { background: var(--red-dark); box-shadow: 0 6px 22px rgba(183,28,28,0.4); }
+
+.btn-no {
+  background: var(--white);
+  color: var(--red);
+  border: 2px solid var(--red);
+  box-shadow: 0 4px 14px rgba(229,57,53,0.1);
+}
+
+.btn-no:hover { background: #ffebee; }
+
+/* ── RESULT PAGE ── */
+#result {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+}
+
+.chose-no {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(22px, 6vw, 30px);
+  color: var(--red-dark);
+  text-align: center;
+}
+
+.result-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 20px;
+  object-fit: cover;
+  border: 3px solid var(--pink-deep);
+  display: none; /* shown when src set */
+}
+
+.result-photo-placeholder {
+  width: 140px;
+  height: 140px;
+  border-radius: 20px;
+  border: 2.5px dashed var(--pink-deep);
+  background: var(--pink-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #ad1457;
+  text-align: center;
+  padding: 10px;
+}
+
+.sorry-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: #880e4f;
+  text-align: center;
+  font-weight: 400;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up { animation: fadeUp 0.5s ease forwards; }
+.delay-1 { animation-delay: 0.1s; opacity: 0; }
+.delay-2 { animation-delay: 0.22s; opacity: 0; }
+.delay-3 { animation-delay: 0.34s; opacity: 0; }
+.delay-4 { animation-delay: 0.46s; opacity: 0; }
+
+#main-content { display: contents; }
+```
+
+  </style>
+</head>
+<body>
+  <div class="card">
+
+```
+<!-- MAIN QUESTION VIEW -->
+<div id="main-content">
+  <h1 class="question fade-up delay-1">Would you go on a date with me?</h1>
+
+  <div class="btn-group fade-up delay-2">
+    <button class="btn btn-yes" onclick="showResult()">Yes 💖</button>
+    <button class="btn btn-no"  onclick="showResult()">No</button>
+  </div>
+</div>
+
+<!-- RESULT VIEW -->
+<div id="result">
+  <p class="chose-no fade-up delay-1">You chose NO</p>
+
+  <!-- Result photo: same image. Swap src="photo.jpg" to match -->
+  <img class="result-photo fade-up delay-2" id="result-photo" src="" alt="photo" />
+  <div class="result-photo-placeholder fade-up delay-2" id="result-placeholder">your photo here</div>
+
+  <p class="sorry-text fade-up delay-3">oh, sorry for bothering u cutie :(</p>
+</div>
+```
+
+  </div>
+
+  <script>
+    // ── Swap this path to your actual image file ──
+    const PHOTO_SRC = "photo.jpg"; // e.g. "me.jpg" or a full URL
+
+    // Show result
+    function showResult() {
+      const main = document.getElementById("main-content");
+      const result = document.getElementById("result");
+      const rPhoto = document.getElementById("result-photo");
+      const rPlaceholder = document.getElementById("result-placeholder");
+
+      // Reset animations
+      result.querySelectorAll(".fade-up").forEach(el => {
+        el.style.animation = "none";
+        el.offsetHeight; // reflow
+        el.style.animation = "";
+      });
+
+      // Swap same photo into result
+      rPhoto.src = PHOTO_SRC;
+      rPhoto.onload = () => {
+        rPhoto.style.display = "block";
+        rPlaceholder.style.display = "none";
+      };
+
+      // Hide question, show result
+      main.style.display = "none";
+      result.style.display = "flex";
+    }
+  </script>
+
+</body>
+</html>
